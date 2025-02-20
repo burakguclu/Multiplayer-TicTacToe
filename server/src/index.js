@@ -20,7 +20,7 @@ app.post("/signup", async (req, res) => {
         const userId = uuidv4()
         const hashedPassword = await bcrypt.hash(password, 10)
         const token = serverClient.createToken(userId);
-        res.json({ token, userId, firstName, lastName, username, hashedPassword })
+        res.json({ token, userId, firstName, lastName, userName, hashedPassword })
     } catch (error) {
         res.json(error)
     }
