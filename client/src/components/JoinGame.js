@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import { useChat, useChatContext } from 'stream-chat-react'
+import { useChatContext, Channel } from 'stream-chat-react'
+import Game from './Game';
 
 function JoinGame() {
   const [rivalUsername, setRivalUsername] = useState("")
@@ -24,14 +25,18 @@ function JoinGame() {
 
   return (
     <>
-      {channel ? (<h1>Game Started</h1>) :
-        (<div className='joinGame'>
+      {channel ? (
+        <Channel channel={channel}>
+          <Game channel={channel} />
+        </Channel>
+      ) : (
+        <div className='joinGame'>
           <h4>Create Game</h4>
           <input placeholder='Username of rival...'
             onChange={(event) => { setRivalUsername(event.target.value) }} />
           <button onClick={createChannel}>Join/Start Game</button>
         </div>
-        )}
+      )}
     </>
   )
 }
