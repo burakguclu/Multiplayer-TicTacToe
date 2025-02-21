@@ -15,9 +15,10 @@ function Game({ channel, setChannel }) {
         setPlayersJoined(event.watcher_count === 2)
     })
 
-    const resetGame = () => {
+    const resetGame = async () => {
         setResult({ winner: "none", state: "none" });
         setReset(true);
+        await channel.sendEvent({ type: "reset-game" });
         setTimeout(() => setReset(false), 0);
     }
 
@@ -25,7 +26,7 @@ function Game({ channel, setChannel }) {
         return <div>Waiting for other player to join...</div>
     }
     return <div className='gameContainer'>
-        <Board result={result} setResult={setResult} reset={reset} />
+        <Board result={result} setResult={setResult} reset={reset} channel={channel} />
         <Window>
             <MessageList
                 disableDateSeparator

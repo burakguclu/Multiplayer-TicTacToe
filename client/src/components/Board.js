@@ -3,12 +3,11 @@ import { useChannelStateContext, useChatContext } from 'stream-chat-react'
 import Square from './Square'
 import { Patterns } from '../WinningPatterns'
 
-function Board({ result, setResult, reset }) {
+function Board({ result, setResult, reset, channel }) {
     const [board, setBoard] = useState(["", "", "", "", "", "", "", "", ""])
     const [player, setPlayer] = useState("X")
     const [turn, setTurn] = useState("X")
 
-    const { channel } = useChannelStateContext()
     const { client } = useChatContext()
 
     useEffect(() => {
@@ -22,6 +21,21 @@ function Board({ result, setResult, reset }) {
             checkWin();
         }
     }, [board, reset])
+
+    useEffect(() => {
+        const handleResetGame = () => {
+            setBoard(["", "", "", "", "", "", "", "", ""]);
+            setPlayer("X");
+            setTurn("X");
+            setResult({ winner: "none", state: "none" });
+        }
+
+        channel.on("reset-game", handleResetGame);
+
+        return () => {
+            channel.off("reset-game", handleResetGame);
+        }
+    }, [channel])
 
     const chooseSquare = async (square) => {
         if (turn === player && board[square] === "" && result.state === "none") {
