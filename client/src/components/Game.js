@@ -23,7 +23,8 @@ function Game({ channel, setChannel }) {
                 disableDateSeparator
                 closeReactionSelectorOnClick
                 hideDeletedMessages
-                messageActions={["react"]} />
+                messageActions={["react"]}
+            />
             <MessageInput noFiles />
         </Window>
         <button onClick={async () => {
