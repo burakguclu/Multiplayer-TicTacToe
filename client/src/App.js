@@ -2,8 +2,10 @@ import { useState } from 'react';
 import './App.css';
 import Login from "./components/Login";
 import SignUp from './components/SignUp';
-import { StreamChat } from 'stream-chat'
+import { StreamChat } from 'stream-chat';
+import { Chat } from 'stream-chat-react';
 import Cookies from 'universal-cookie'
+import JoinGame from './components/JoinGame';
 
 function App() {
   const api_key = process.env.REACT_APP_API_KEY
@@ -42,11 +44,16 @@ function App() {
 
   return (
     <div className="App">
-      {isAuth ? (<button onClick={logOut}>Log Out</button>) : (
+      {isAuth ? (
+        <Chat client={client}>
+          <JoinGame />
+          <button onClick={logOut}>Log Out</button>
+        </Chat>
+      ) : (
         <>
-      <SignUp setIsAuth={setIsAuth}/>
-      <Login setIsAuth={setIsAuth}/>
-      </>
+          <SignUp setIsAuth={setIsAuth} />
+          <Login setIsAuth={setIsAuth} />
+        </>
       )}
     </div>
   );
