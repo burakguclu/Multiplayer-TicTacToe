@@ -16,7 +16,6 @@ function SignUp({ setIsAuth }) {
                 cookies.set("lastName", lastName)
                 cookies.set("username", username)
                 cookies.set("hashedPassword", hashedPassword)
-                console.log(username)
                 setIsAuth(true)
             })
     }
