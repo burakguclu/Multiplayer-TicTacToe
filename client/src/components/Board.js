@@ -17,9 +17,10 @@ function Board({ result, setResult, reset }) {
             setPlayer("X");
             setTurn("X");
             setResult({ winner: "none", state: "none" });
+        } else {
+            checkIfTie();
+            checkWin();
         }
-        checkIfTie()
-        checkWin()
     }, [board, reset])
 
     const chooseSquare = async (square) => {
