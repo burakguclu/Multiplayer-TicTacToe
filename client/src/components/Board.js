@@ -3,7 +3,7 @@ import { useChannelStateContext, useChatContext } from 'stream-chat-react'
 import Square from './Square'
 import { Patterns } from '../WinningPatterns'
 
-function Board({ result, setResult, reset, channel }) {
+function Board({ result, setResult, reset, channel, playerNames }) {
     const [board, setBoard] = useState(["", "", "", "", "", "", "", "", ""])
     const [player, setPlayer] = useState("X")
     const [turn, setTurn] = useState("X")
@@ -39,6 +39,9 @@ function Board({ result, setResult, reset, channel }) {
 
     const chooseSquare = async (square) => {
         if (turn === player && board[square] === "" && result.state === "none") {
+            const currentPlayerName = player === "X" ? playerNames.playerX : playerNames.playerO;
+            console.log(`${currentPlayerName} is making a move: ${player}`);
+
             setTurn(player === "X" ? "O" : "X")
 
             await channel.sendEvent({
@@ -67,8 +70,9 @@ function Board({ result, setResult, reset, channel }) {
             })
 
             if (foundWinningPattern) {
-                setResult({ winner: board[currentPattern[0]], state: "won" })
-                alert("Winner " + board[currentPattern[0]])
+                console.log("Winning Player:", firstPlayer);
+                setResult({ winner: firstPlayer, state: "won" })
+                alert("Winner " + firstPlayer)
             }
         })
     }

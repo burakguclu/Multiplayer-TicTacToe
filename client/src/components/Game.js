@@ -10,8 +10,11 @@ function Game({ channel, setChannel, rivalUsername }) {
     const [result, setResult] = useState({ winner: "none", state: "none" })
     const [reset, setReset] = useState(false)
 
-    // Kullanıcı isimlerini ekliyoruz
-    const [playerNames, setPlayerNames] = useState({ playerX: cookies.get("username"), playerO: rivalUsername });
+    // Kullanıcı isimlerini cookie'den alıyoruz
+    const [playerNames, setPlayerNames] = useState({
+        playerX: cookies.get("username"), // X ile oynayan oyuncu
+        playerO: rivalUsername // O ile oynayan rakip oyuncu
+    });
 
     // Skor durumunu ekliyoruz
     const [scores, setScores] = useState({ playerX: 0, playerO: 0 });
@@ -29,10 +32,19 @@ function Game({ channel, setChannel, rivalUsername }) {
 
     // Skor güncelleme fonksiyonu
     const updateScores = (winner) => {
-        if (winner === "X") {
-            setScores(prevScores => ({ ...prevScores, playerX: prevScores.playerX + 1 }));
-        } else if (winner === "O") {
-            setScores(prevScores => ({ ...prevScores, playerO: prevScores.playerO + 1 }));
+        console.log("Winner:", winner); // Kazananı kontrol et
+        if (winner === playerNames.playerX) {
+            setScores(prevScores => {
+                const newScores = { ...prevScores, playerX: prevScores.playerX + 1 };
+                console.log("Updated Scores:", newScores); // Güncellenen puanları kontrol et
+                return newScores;
+            });
+        } else if (winner === playerNames.playerO) {
+            setScores(prevScores => {
+                const newScores = { ...prevScores, playerO: prevScores.playerO + 1 };
+                console.log("Updated Scores:", newScores); // Güncellenen puanları kontrol et
+                return newScores;
+            });
         }
     }
 
@@ -48,7 +60,7 @@ function Game({ channel, setChannel, rivalUsername }) {
     }
 
     return <div className='gameContainer'>
-        <Board result={result} setResult={setResult} reset={reset} channel={channel} />
+        <Board result={result} setResult={setResult} reset={reset} channel={channel} playerNames={playerNames} />
         <Window>
             <MessageList
                 disableDateSeparator
