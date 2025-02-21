@@ -36,11 +36,15 @@ function Game({ channel, setChannel }) {
             />
             <MessageInput noFiles />
         </Window>
-        <button onClick={async () => {
-            await channel.stopWatching()
-            setChannel(null)
-        }}>Leave Game</button>
-        <button onClick={resetGame}>Reset Game</button>
+        <div className="buttonContainer">
+            <button onClick={async () => {
+                await channel.stopWatching()
+                setChannel(null)
+            }}>Leave Game</button>
+            {result.state === "won" || result.state === "tie" ? (
+                <button onClick={resetGame}>Reset Game</button>
+            ) : null}
+        </div>
     </div>
 }
 
