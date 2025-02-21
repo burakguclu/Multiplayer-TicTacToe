@@ -3,7 +3,7 @@ import { useChannelStateContext, useChatContext } from 'stream-chat-react'
 import Square from './Square'
 import { Patterns } from '../WinningPatterns'
 
-function Board({ result, setResult }) {
+function Board({ result, setResult, reset }) {
     const [board, setBoard] = useState(["", "", "", "", "", "", "", "", ""])
     const [player, setPlayer] = useState("X")
     const [turn, setTurn] = useState("X")
@@ -12,9 +12,15 @@ function Board({ result, setResult }) {
     const { client } = useChatContext()
 
     useEffect(() => {
+        if (reset) {
+            setBoard(["", "", "", "", "", "", "", "", ""]);
+            setPlayer("X");
+            setTurn("X");
+            setResult({ winner: "none", state: "none" });
+        }
         checkIfTie()
         checkWin()
-    }, [board])
+    }, [board, reset])
 
     const chooseSquare = async (square) => {
         if (turn === player && board[square] === "") {
@@ -37,10 +43,10 @@ function Board({ result, setResult }) {
     const checkWin = () => {
         Patterns.forEach((currentPattern) => {
             const firstPlayer = board[currentPattern[0]]
-            if (firstPlayer == "") return
+            if (firstPlayer === "") return
             let foundWinningPattern = true;
             currentPattern.forEach((idx) => {
-                if (board[idx] != firstPlayer) {
+                if (board[idx] !== firstPlayer) {
                     foundWinningPattern = false;
                 }
             })
@@ -55,7 +61,7 @@ function Board({ result, setResult }) {
     const checkIfTie = () => {
         let filled = true
         board.forEach((square) => {
-            if (square == "") {
+            if (square === "") {
                 filled = false
             }
         })
@@ -67,7 +73,7 @@ function Board({ result, setResult }) {
     }
 
     channel.on((event) => {
-        if (event.type == "game-move" && event.user.id !== client.userID) {
+        if (event.type === "game-move" && event.user.id !== client.userID) {
             const currentPlayer = event.data.player === "X" ? "O" : "X"
             setPlayer(currentPlayer)
             setTurn(currentPlayer)
