@@ -28,7 +28,7 @@ function JoinGame() {
     <>
       {channel ? (
         <Channel channel={channel} Input={CustomInput}>
-          <Game channel={channel} setChannel={setChannel}/>
+          <Game channel={channel} setChannel={setChannel} rivalUsername={rivalUsername} />
         </Channel>
       ) : (
         <div className='joinGame'>

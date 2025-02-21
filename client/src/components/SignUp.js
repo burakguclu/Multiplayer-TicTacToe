@@ -16,6 +16,7 @@ function SignUp({ setIsAuth }) {
                 cookies.set("lastName", lastName)
                 cookies.set("username", username)
                 cookies.set("hashedPassword", hashedPassword)
+                cookies.set("playerSymbol", "X")
                 setIsAuth(true)
             })
     }

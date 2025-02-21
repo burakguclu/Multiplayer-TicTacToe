@@ -17,6 +17,7 @@ function Login({ setIsAuth }) {
                 cookies.set("firstName", firstName)
                 cookies.set("lastName", lastName)
                 cookies.set("username", username)
+                cookies.set("playerSymbol", "X");
                 setIsAuth(true)
             })
     }
