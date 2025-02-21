@@ -23,7 +23,7 @@ function Board({ result, setResult, reset }) {
     }, [board, reset])
 
     const chooseSquare = async (square) => {
-        if (turn === player && board[square] === "") {
+        if (turn === player && board[square] === "" && result.state === "none") {
             setTurn(player === "X" ? "O" : "X")
 
             await channel.sendEvent({
@@ -67,7 +67,7 @@ function Board({ result, setResult, reset }) {
         })
 
         if (filled) {
-            setResult({ winner: "none", steate: "tie" })
+            setResult({ winner: "none", state: "tie" })
             alert("Game tied")
         }
     }
